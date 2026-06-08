@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/s3-client/pom.xml" />
+        <option value="$PROJECT_DIR$/api-contracts/pom.xml" />
+        <option value="$PROJECT_DIR$/security-lib/pom.xml" />
+        <option value="$PROJECT_DIR$/rule-service-client/pom.xml" />
+        <option value="$PROJECT_DIR$/file-service-client/pom.xml" />
+        <option value="$PROJECT_DIR$/tree-converter/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="Javarush SDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

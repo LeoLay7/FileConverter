@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tree-converter" />
+        <module name="rule-service-client" />
+        <module name="security-lib" />
+        <module name="s3-client" />
+        <module name="file-service-client" />
+      </profile>
+      <profile name="Annotation profile for api-contracts" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="api-contracts" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-contracts" options="-parameters" />
+      <module name="file-service-client" options="-parameters" />
+      <module name="rule-service-client" options="-parameters" />
+      <module name="s3-client" options="-parameters" />
+      <module name="security-lib" options="-parameters" />
+      <module name="tree-converter" options="-parameters" />
+    </option>
+  </component>
+</project>

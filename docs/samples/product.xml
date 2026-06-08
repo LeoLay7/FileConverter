@@ -1,0 +1,27 @@
+<ObjectNode>
+    <id>1001</id>
+    <category>electronics</category>
+    <price>1299.50</price>
+    <available>true</available>
+    <owner>
+        <name>Ivan Petrov</name>
+        <email>ivan.petrov@example.com</email>
+    </owner>
+    <tags>
+        <id>1</id>
+        <name>computers</name>
+    </tags>
+    <tags>
+        <id>2</id>
+        <name>technology</name>
+    </tags>
+    <tags>
+        <id>3</id>
+        <name>gadgets</name>
+    </tags>
+    <categories>laptops</categories>
+    <categories>electronics</categories>
+    <categories>computers</categories>
+    <ownerEmail>ivan.petrov@example.com</ownerEmail>
+    <productName>Laptop</productName>
+</ObjectNode>

@@ -1,0 +1,39 @@
+{
+  "id": "1001",
+  "name": "Laptop",
+  "category": "electronics",
+  "price": "1299.50",
+  "available": "true",
+  "stock": "42",
+  "internalCode": "INT-SECRET-001",
+  "owner": {
+    "name": "Ivan Petrov",
+    "email": "ivan.petrov@example.com",
+    "phone": "+79990000000"
+  },
+  "tags": [
+    {
+      "id": "1",
+      "name": "computers",
+      "priority": "10",
+      "internalCode": "TAG-SECRET-1"
+    },
+    {
+      "id": "2",
+      "name": "technology",
+      "priority": "20",
+      "internalCode": "TAG-SECRET-2"
+    },
+    {
+      "id": "3",
+      "name": "gadgets",
+      "priority": "30",
+      "internalCode": "TAG-SECRET-3"
+    }
+  ],
+  "categories": [
+    "laptops",
+    "electronics",
+    "computers"
+  ]
+}

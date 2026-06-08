@@ -1,0 +1,25 @@
+catalog.xml - 2661fe50-0383-4459-a0af-b434aba9ef4d
+
+order.json - ae12e373-cdcb-4864-ba67-b629028c5961
+
+product.json - 0f2e0a4b-d9b5-43d2-970a-c38b525e3878
+
+users.csv - 2fdf6735-8ea9-467b-b544-e5a6bf5374bf
+
+all.xml - 66798dd8-8ca8-4d8d-b6ee-d01164035bff
+
+all.json - aab7d023-8679-490f-8a76-38e753c97b29
+
+RuleSet:
+1 CSV users -> JSON, переименование поля в каждой строке: 2ebf7550-0e69-49a6-adb0-1fb8bb892a48
+
+2 CSV users -> JSON, удаление чувствительных полей: e5637e61-5f8f-43a3-b3dd-999bcf9d06a5
+
+3 JSON product -> XML, COPY + RENAME + DELETE + TYPE_CAST: aedcf474-b75a-4809-a991-7d1bf616463b
+
+4: JSON order -> JSON, преобразование элементов вложенного списка: 4b2ae1a8-bd9f-43f5-bcb0-e2a5913f33c6
+
+
+all json-xml: 72070f47-cd64-4a3d-a19b-101b32338c45
+
+all xml-json: bc7098bc-a9fb-46a4-bb4d-5f897344ec13

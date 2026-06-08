@@ -1,0 +1,81 @@
+@startuml File_Converter_Architecture
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+hide stereotype
+
+skinparam linetype ortho
+skinparam handwritten false
+top to bottom direction
+
+title File Converter Service — контейнеры по зонам ответственности
+
+AddBoundaryTag("access", $bgColor="#EFF6FF", $borderColor="#93C5FD", $legendText="клиентский слой")
+AddBoundaryTag("platform", $bgColor="#F0FDF4", $borderColor="#86EFAC", $legendText="пользователи и файлы")
+AddBoundaryTag("pipeline", $bgColor="#FAF5FF", $borderColor="#D8B4FE", $legendText="сценарий конвертации")
+AddBoundaryTag("persistence", $bgColor="#FFFBEB", $borderColor="#FCD34D", $legendText="данные и очередь")
+
+Person(user, "Пользователь", "Работа с файлами и правилами")
+
+System_Boundary(svc, "File Converter Service") {
+    Container_Boundary(z1, "Доступ: UI и вход в API", "access") {
+        Container(web_ui, "Web UI", "React / Vue", "Интерфейс")
+        Container(api_gw, "API Gateway", "Nginx / Spring Cloud Gateway", "Вход HTTP")
+    }
+
+    Container_Boundary(z2, "Платформа: учётные записи и хранение файлов", "platform") {
+        Container(user_svc, "User Service", "Spring Boot", "Пользователи, аутентификация")
+        Container(file_svc, "File Service", "Spring Boot", "Файлы в S3, ссылки на скачивание")
+    }
+
+    Container_Boundary(z3, "Конвертация: оркестрация, правила, исполнитель", "pipeline") {
+        Container(facade, "API Facade", "Spring Boot", "Задачи, статусы, обмен с Kafka")
+        Container(rule_svc, "Rule Service", "Spring Boot", "Правила и наборы правил")
+        Container(transformer, "Tree Transformer", "Spring Boot", "JSON, XML, CSV как дерево")
+    }
+
+    Container_Boundary(z4, "Хранилища и асинхронная доставка", "persistence") {
+        ContainerDb(rule_db, "Rule DB", "PostgreSQL", "Правила")
+        ContainerDb(facade_db, "Facade DB", "PostgreSQL", "Задачи")
+        ContainerDb(redis, "Redis", "Redis", "Кэш")
+        ContainerQueue(kafka, "Kafka", "Apache Kafka", "Очередь задач")
+    }
+}
+
+System_Ext(minio, "MinIO", "S3-совместимое хранилище")
+
+Lay_R(web_ui, api_gw)
+Lay_R(user_svc, file_svc)
+Lay_R(facade, rule_svc)
+Lay_R(rule_svc, transformer)
+Lay_R(rule_db, facade_db)
+Lay_R(facade_db, redis)
+Lay_R(redis, kafka)
+Lay_D(api_gw, facade)
+Lay_D(rule_svc, rule_db)
+Lay_D(facade, facade_db)
+Lay_D(transformer, kafka)
+Lay_R(file_svc, minio)
+
+Rel(user, web_ui, "")
+Rel(web_ui, api_gw, "")
+
+Rel(api_gw, user_svc, "")
+Rel(api_gw, file_svc, "")
+Rel(api_gw, facade, "")
+Rel(api_gw, rule_svc, "")
+
+Rel(facade, rule_svc, "")
+Rel(facade, kafka, "")
+Rel(kafka, transformer, "")
+Rel(transformer, file_svc, "")
+Rel(transformer, kafka, "")
+Rel(kafka, facade, "")
+
+Rel(file_svc, minio, "")
+
+Rel(rule_svc, rule_db, "")
+Rel(facade, facade_db, "")
+Rel(facade, redis, "")
+Rel(rule_svc, redis, "")
+
+@enduml

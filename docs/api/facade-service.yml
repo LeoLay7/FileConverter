@@ -1,0 +1,168 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Facade Service API",
+    "description": "Transformation job orchestration API.",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8084",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/transform": {
+      "post": {
+        "tags": [
+          "transform-controller"
+        ],
+        "operationId": "create",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransformRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransformResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/jobs/{jobId}": {
+      "get": {
+        "tags": [
+          "job-controller"
+        ],
+        "operationId": "status",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TransformRequestDto": {
+        "type": "object",
+        "properties": {
+          "sourceFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "targetFormat": {
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML",
+              "CSV"
+            ]
+          },
+          "ruleSetId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "TransformResponseDto": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "RUNNING",
+              "DONE",
+              "FAILED"
+            ]
+          },
+          "resultFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "downloadUrl": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "JobStatusResponseDto": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "RUNNING",
+              "DONE",
+              "FAILED"
+            ]
+          },
+          "resultFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "downloadUrl": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

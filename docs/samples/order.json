@@ -1,0 +1,20 @@
+{
+  "orderId": "ORD-001",
+  "customer": "Acme Ltd",
+  "items": [
+    {
+      "sku": "A-100",
+      "title": "Keyboard",
+      "quantity": "2",
+      "price": "49.90",
+      "internalNote": "supplier-a"
+    },
+    {
+      "sku": "B-200",
+      "title": "Mouse",
+      "quantity": "5",
+      "price": "19.50",
+      "internalNote": "supplier-b"
+    }
+  ]
+}

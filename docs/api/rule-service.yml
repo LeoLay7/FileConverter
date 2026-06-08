@@ -1,0 +1,527 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Rule Service API",
+    "description": "Rule set CRUD and rule constructor capabilities API.",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8083",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/rule-sets/{ruleSetId}": {
+      "get": {
+        "tags": [
+          "rule-set-controller"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "ruleSetId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleSetDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "rule-set-controller"
+        ],
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "ruleSetId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleSetSaveRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleSetDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "rule-set-controller"
+        ],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "ruleSetId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/rule-sets": {
+      "get": {
+        "tags": [
+          "rule-set-controller"
+        ],
+        "operationId": "list",
+        "parameters": [
+          {
+            "name": "sourceFormat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "JSON",
+                "XML",
+                "CSV"
+              ]
+            }
+          },
+          {
+            "name": "targetFormat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "JSON",
+                "XML",
+                "CSV"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponseDtoRuleSetDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "rule-set-controller"
+        ],
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleSetSaveRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleSetDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rule-capabilities": {
+      "get": {
+        "tags": [
+          "rule-capability-controller"
+        ],
+        "operationId": "capabilities",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleCapabilitiesDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rule-capabilities/target-types": {
+      "get": {
+        "tags": [
+          "rule-capability-controller"
+        ],
+        "operationId": "targetTypes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetTypeCapabilityDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rule-capabilities/rule-types": {
+      "get": {
+        "tags": [
+          "rule-capability-controller"
+        ],
+        "operationId": "ruleTypes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RuleTypeCapabilityDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RuleDto": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "COPY",
+              "RENAME",
+              "DELETE",
+              "TYPE_CAST",
+              "LIST",
+              "CONSTANT"
+            ]
+          },
+          "sourcePath": {
+            "type": "string"
+          },
+          "targetPath": {
+            "type": "string"
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "STRING",
+              "INTEGER",
+              "DECIMAL",
+              "BOOLEAN"
+            ]
+          },
+          "value": {
+
+          },
+          "itemRule": {
+
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "options": {
+            "type": "object",
+            "additionalProperties": {
+
+            }
+          }
+        }
+      },
+      "RuleSetSaveRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "sourceFormat": {
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML",
+              "CSV"
+            ]
+          },
+          "targetFormat": {
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML",
+              "CSV"
+            ]
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleDto"
+            }
+          }
+        }
+      },
+      "RuleSetDto": {
+        "type": "object",
+        "properties": {
+          "ruleSetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sourceFormat": {
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML",
+              "CSV"
+            ]
+          },
+          "targetFormat": {
+            "type": "string",
+            "enum": [
+              "JSON",
+              "XML",
+              "CSV"
+            ]
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleDto"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PageResponseDtoRuleSetDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleSetDto"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "RuleCapabilitiesDto": {
+        "type": "object",
+        "properties": {
+          "ruleTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleTypeCapabilityDto"
+            }
+          },
+          "targetTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TargetTypeCapabilityDto"
+            }
+          },
+          "pathExamples": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "RuleTypeCapabilityDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "COPY",
+              "RENAME",
+              "DELETE",
+              "TYPE_CAST",
+              "LIST",
+              "CONSTANT"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "sourcePath": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "OPTIONAL",
+              "FORBIDDEN"
+            ]
+          },
+          "targetPath": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "OPTIONAL",
+              "FORBIDDEN"
+            ]
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "OPTIONAL",
+              "FORBIDDEN"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "OPTIONAL",
+              "FORBIDDEN"
+            ]
+          },
+          "itemRule": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "OPTIONAL",
+              "FORBIDDEN"
+            ]
+          }
+        }
+      },
+      "TargetTypeCapabilityDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "STRING",
+              "INTEGER",
+              "DECIMAL",
+              "BOOLEAN"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
